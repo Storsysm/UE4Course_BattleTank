@@ -13,11 +13,14 @@ UCLASS()
 class BATTLETANK_API ATankAIController : public AAIController
 {
 	GENERATED_BODY()
+
+public:
+	virtual void Tick(float DeltaTime) override;
+
+	virtual void BeginPlay() override; // BeginPlay() should stay public IF you plan to inharit from this class!
 	
 private:
 	ATank* GetControlledAITank() const;
 
-	virtual void BeginPlay() override; // BeginPlay() should stay public IF you plan to inharit from this class!
-	
 	ATank* GetPlayerTank() const;
 };
