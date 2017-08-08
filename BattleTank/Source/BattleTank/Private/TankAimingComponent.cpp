@@ -4,6 +4,7 @@
 // here a forward declaration is not enough.
 //It would be if we would only care to know about the TankBarrel class type BUT here we use a method on Barrel->GetSocketLocation() in AimAT() so we need to include the whole library
 #include "TankBarrel.h" 
+#include "TankTurret.h"
 #include "TankAimingComponent.h"
 
 
@@ -12,14 +13,21 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bCanEverTick = false;
 
 	// ...
 }
 
 void UTankAimingComponent::SetBarrelReference(UTankBarrel* BarrelToSet)
 {
+	if (!BarrelToSet) { return; }
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReference(UTankTurret* TurretToSet)
+{
+	if (!TurretToSet) { return; }
+	Turret = TurretToSet;
 }
 
 //add SetTurretReference
@@ -64,5 +72,6 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
 	
 	Barrel->Elevate(DeltaRotator.Pitch);
+	Turret->Rotate(DeltaRotator.Yaw);
 }
 
