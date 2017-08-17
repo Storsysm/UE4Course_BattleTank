@@ -20,7 +20,7 @@ public:
 	virtual void BeginPlay() override; // BeginPlay() should stay public IF you plan to inharit from this class!
 	
 private:
-	ATank* GetControlledAITank() const;
-
-	ATank* GetPlayerTank() const;
+	//How close can the AI tank can get to the player
+	UPROPERTY(EditDefaultsOnly)
+	float AcceptanceRadius = 3000;
 };
