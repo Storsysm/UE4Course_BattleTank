@@ -14,11 +14,20 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
-	//TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Tank C++ construct "), *TankName);
+}
+
+void ATank::BeginPlay()
+{
+	Super::BeginPlay(); //Needed for BP BeginPlay to run!
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s DONKEY: Tank C++ BeginPlay "), *TankName);
 }
 
 void ATank::AimAt(FVector HitLocation)
 {
+	if (!TankAimingComponent) { return; }
 	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
 }
 

@@ -2,13 +2,23 @@
 
 
 #include "BattleTank.h"
+#include "TankAimingComponent.h"
 #include "Tank.h"
 #include "TankPlayerController.h"
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
+	auto AimingComponent = GetControlledTank()->FindComponentByClass<UTankAimingComponent>();
+	if (AimingComponent)
+	{
+		FoundAimingComponent(AimingComponent);
+	}
+	else
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Player controller can't find aiming component at Begin Play"))
+	}
+	
 }
 	
 void ATankPlayerController::Tick(float DeltaTime)
@@ -41,7 +51,6 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector &OutHitLocation) cons
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
 	//crosshair position on screen.
 	auto ScreenLocation = FVector2D(ViewportSizeX * CrossHairXLocation, ViewportSizeY * CrossHairYLocation);
-	//UE_LOG(LogTemp, Warning, TEXT("ScreenLocation: %s"), *ScreenLocation.ToString());
 
 	FVector LookDirection;
 	if (GetLookDirection(ScreenLocation, LookDirection))
