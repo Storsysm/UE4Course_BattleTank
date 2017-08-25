@@ -8,8 +8,7 @@
 #include "Projectile.h"
 #include "TankAimingComponent.h"
 
-
-// Sets default values for this component's properties
+// Sets default values for this component's properties--
 UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -71,7 +70,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
-	if (bHaveAimSolution) // some params where not added cause they have their default values 0,0,false
+	if(bHaveAimSolution) // some params where not added cause they have their default values 0,0,false
 	{
 		AimDirection = OutLaunchVelocity.GetSafeNormal();
 		MoveBarrelTowards(AimDirection);
@@ -86,14 +85,14 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotator;
-
+	
 	Barrel->Elevate(DeltaRotator.Pitch);
 	Turret->Rotate(DeltaRotator.Yaw);
 }
 
 void UTankAimingComponent::Fire()
 {
-
+	
 	if (FiringState != EFiringStatus::Reloading)
 	{
 		//Spawn a projectile at the socketlocation on the barrel
@@ -102,7 +101,7 @@ void UTankAimingComponent::Fire()
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
 			Barrel->GetSocketLocation("Projectile"),
-			Barrel->GetSocketRotation("Barrel")
+			Barrel->GetSocketRotation("Projectile")
 			);
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
