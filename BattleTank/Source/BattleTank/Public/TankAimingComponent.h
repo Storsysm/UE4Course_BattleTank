@@ -10,7 +10,8 @@ enum class EFiringStatus : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo
 };
 
 // This is a forward declaration which allows us to reference UTankBarrel in this file
@@ -30,14 +31,18 @@ public:
 
 	void AimAt(FVector HitLocation);
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
+	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
 	EFiringStatus GetFiringState() const;
 
+	int GetRoundsLeft() const;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 		EFiringStatus FiringState = EFiringStatus::Reloading;
+	UPROPERTY(BlueprintReadOnly, Category = "Firing")
+		int RoundsLeft = 3;
 
 private:
 	// Sets default values for this component's properties
@@ -58,8 +63,8 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float LaunchSpeed = 4000;
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-
 	float ReloadTimeInSeconds = 3;
 	double LastFireTime = 0;
 	FVector AimDirection;
+	
 };
