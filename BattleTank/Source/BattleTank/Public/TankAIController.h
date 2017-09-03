@@ -25,5 +25,10 @@ protected:
 private:
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
 	virtual void BeginPlay() override; // BeginPlay() should stay public IF you plan to inharit from this class!
+
+	UFUNCTION()
+		void OnPossedTankDeath();
 };
